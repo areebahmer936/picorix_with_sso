@@ -1,0 +1,10 @@
+flutter_native_splash:
+  image: assets/icon3.png
+  branding: assets/branding3.png
+  branding_mode: bottom
+  color: "ffffff"
+  android_disable_fullscreen: false
+  android_12: 
+    branding: assets/branding3.png
+    image: assets/icon3.png
+  android: true

@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "943476532853",
+    "project_id": "picorix-67546",
+    "storage_bucket": "picorix-67546.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943476532853:android:a3eaefa71940d5cac77a3c",
+        "android_client_info": {
+          "package_name": "com.areewhiz.picorix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "943476532853-ehket8m89dpgdhijfk8hpecbt7q96c2q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.areewhiz.picorix",
+            "certificate_hash": "b419877b6ae17b091fe5df093dc1dfdedb3e59ad"
+          }
+        },
+        {
+          "client_id": "943476532853-ekce2jmleqsnps2ijnfcn5bivmr1t7lt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZnN4Xx8wsokmuPaCLSf2u4H9YsGrk0Xw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "943476532853-ekce2jmleqsnps2ijnfcn5bivmr1t7lt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "943476532853-0l9k711vhc7l15tbkea2cqlthmeu5h0i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.picorix.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
