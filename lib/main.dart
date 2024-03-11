@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:picorix/router/AppRouter.dart';
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:picorix/router/app_router.dart';
 import 'package:picorix/utils/helper_functions.dart';
 
 import 'firebase_options.dart';
@@ -13,7 +13,7 @@ void main() async {
   //   await MobileAds.instance.initialize();
   // }
 
-  await dotenv.load(fileName: ".env");
+  //await dotenv.load(fileName: ".env");
   bool? status = await HelperFunctions.getUserLoggedInStatus();
   runApp(MyApp(loggedin: status ?? false));
 }
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'picorix',
-      initialRoute: loggedin ? "/newhomepage" : '/',
+      initialRoute: loggedin ? "/messageview" : '/',
       onGenerateRoute: AppRouter.onGenerateRoute,
     );
   }

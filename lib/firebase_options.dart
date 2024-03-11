@@ -17,10 +17,11 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
+      // throw UnsupportedError(
+      //   'DefaultFirebaseOptions have not been configured for web - '
+      //   'you can reconfigure this by running the FlutterFire CLI again.',
+      // );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -56,6 +57,13 @@ class DefaultFirebaseOptions {
     projectId: 'picorix-67546',
     storageBucket: 'picorix-67546.appspot.com',
   );
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCZnN4Xx8wsokmuPaCLSf2u4H9YsGrk0Xw',
+    appId: '1:943476532853:android:a3eaefa71940d5cac77a3c',
+    messagingSenderId: '943476532853',
+    projectId: 'picorix-67546',
+    storageBucket: 'picorix-67546.appspot.com',
+  );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBbVWwHMGFwycw2Cw1P0LQNuYuEAic0vQM',
@@ -63,8 +71,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '943476532853',
     projectId: 'picorix-67546',
     storageBucket: 'picorix-67546.appspot.com',
-    androidClientId: '943476532853-ehket8m89dpgdhijfk8hpecbt7q96c2q.apps.googleusercontent.com',
-    iosClientId: '943476532853-4ghqeiqotk9fbn97obcv9edpsvoiv14l.apps.googleusercontent.com',
+    androidClientId:
+        '943476532853-ehket8m89dpgdhijfk8hpecbt7q96c2q.apps.googleusercontent.com',
+    iosClientId:
+        '943476532853-4ghqeiqotk9fbn97obcv9edpsvoiv14l.apps.googleusercontent.com',
     iosBundleId: 'com.example.picorix',
   );
 }

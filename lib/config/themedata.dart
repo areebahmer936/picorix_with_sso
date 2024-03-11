@@ -21,3 +21,6 @@ String profilePicturePlaceholder =
 const Color primaryColor = Color(0xff197970);
 const Color secondaryColor = Color.fromARGB(255, 112, 207, 198);
 const formFeildColorFill = Color.fromARGB(255, 240, 240, 240);
+Color incomingCallColor = const Color(0xff3D4A7A);
+Color outgoingCallColor = const Color(0xff5F40DC);
+Color placeholderBackgroundColor = const Color.fromARGB(255, 3, 37, 67);

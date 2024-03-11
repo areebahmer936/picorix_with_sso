@@ -28,6 +28,15 @@ class HelperFunctions {
     return await sf.setString(profileImageUrl, imageUrl);
   }
 
+  static Future setInfo(pfp, uid, loggedInStatus, email, userName) async {
+    SharedPreferences sf = await SharedPreferences.getInstance();
+    await sf.setString(profileImageUrl, pfp);
+    await sf.setString(userNameKey, userName);
+    await sf.setBool(userLoggedInKey, loggedInStatus);
+    await sf.setString(userEmailKey, email);
+    await sf.setString(myUid, uid);
+  }
+
   static Future<bool?> setUid(String uid) async {
     SharedPreferences sf = await SharedPreferences.getInstance();
     return await sf.setString(myUid, uid);

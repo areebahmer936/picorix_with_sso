@@ -2,9 +2,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:picorix/config/themedata.dart';
-import 'package:picorix/pages/Auth/loginViewModel.dart';
-import 'package:picorix/utils/helper_functions.dart';
+import 'package:picorix/pages/Auth/Login/login_view_model.dart';
+// import 'package:picorix/utils/helper_functions.dart';
 import 'package:picorix/widgets/TextInputFeild.dart';
 import 'package:picorix/widgets/pass_Input_field.dart';
 import 'package:stacked/stacked.dart';
@@ -19,6 +20,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final formKey = GlobalKey<FormState>();
   bool isProcessing = false;
+  bool isGoogleLoading = false;
   // final notificationService = NotificationService();
 
   final bool _isLoading = false;
@@ -176,6 +178,10 @@ class _LoginViewState extends State<LoginView> {
                                                     children: <TextSpan>[
                                                       TextSpan(
                                                           text: " Register",
+                                                          style: const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
                                                           recognizer:
                                                               TapGestureRecognizer()
                                                                 ..onTap = () {
@@ -225,24 +231,22 @@ class _LoginViewState extends State<LoginView> {
                                               InkWell(
                                                 onTap: () {
                                                   setState(() {
-                                                    isProcessing = true;
+                                                    isGoogleLoading = true;
                                                   });
                                                   viewModel
                                                       .signInWithGoogle()
                                                       .then((value) {
                                                     if (value == true) {
-                                                      setState(() {
-                                                        isProcessing = false;
-                                                      });
-                                                      HelperFunctions
-                                                          .setUserLoggedInStatus(
-                                                              true);
-                                                      Navigator.pushNamed(
-                                                          context,
-                                                          "/newhomepage");
+                                                      Navigator
+                                                          .pushNamedAndRemoveUntil(
+                                                              context,
+                                                              "/messageview",
+                                                              (Route<dynamic>
+                                                                      route) =>
+                                                                  false);
                                                     } else {
                                                       setState(() {
-                                                        isProcessing = false;
+                                                        isGoogleLoading = false;
                                                       });
                                                       ScaffoldMessenger.of(
                                                               context)
@@ -253,89 +257,178 @@ class _LoginViewState extends State<LoginView> {
                                                     }
                                                   });
                                                 },
-                                                child: SizedBox(
-                                                  height: 30,
-                                                  child: ClipOval(
-                                                    child: Image.asset(
-                                                        'assets/app/google.png'),
-                                                  ),
+                                                child: Container(
+                                                  height: 60,
+                                                  width: 250,
+                                                  decoration: BoxDecoration(
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            color: Colors
+                                                                .grey.shade300,
+                                                            blurRadius: 10)
+                                                      ],
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                      color: Colors.white),
+                                                  child: isGoogleLoading
+                                                      ? SizedBox(
+                                                          height: 80,
+                                                          child: Lottie.asset(
+                                                            "assets/app/google_loading.json",
+                                                            repeat: true,
+                                                            frameRate:
+                                                                FrameRate.max,
+                                                          ),
+                                                        )
+                                                      : Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                          children: [
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            SizedBox(
+                                                              height: 30,
+                                                              child: Center(
+                                                                child: ClipOval(
+                                                                  child: Image
+                                                                      .asset(
+                                                                          'assets/app/google.png'),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            const Text(
+                                                              "sign in with google",
+                                                              style: TextStyle(
+                                                                  fontSize: 18),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            )
+                                                          ],
+                                                        ),
                                                 ),
                                               ),
-                                              const SizedBox(width: 30),
-                                              InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    isProcessing = true;
-                                                  });
-                                                  viewModel
-                                                      .signInWithFacebook()
-                                                      .then((value) {
-                                                    if (value == true) {
-                                                      HelperFunctions
-                                                          .setUserLoggedInStatus(
-                                                              true);
-                                                      Navigator.pushNamed(
-                                                          context,
-                                                          "/newhomepage");
-                                                    } else {
-                                                      setState(() {
-                                                        isProcessing = false;
-                                                      });
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                              SnackBar(
-                                                                  content: Text(
-                                                                      value)));
-                                                    }
-                                                  });
-                                                },
-                                                child: SizedBox(
-                                                  height: 30,
-                                                  child: ClipOval(
-                                                    child: Image.asset(
-                                                        'assets/app/facebook.png'),
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(width: 30),
-                                              InkWell(
-                                                onTap: () {
-                                                  viewModel
-                                                      .signInWithApple()
-                                                      .then((v) {
-                                                    if (v == true) {
-                                                      Navigator.pushNamed(
-                                                          context,
-                                                          "/newhomepage");
-                                                    }
-                                                  });
-                                                },
-                                                child: SizedBox(
-                                                  height: 30,
-                                                  child: ClipOval(
-                                                    child: Image.asset(
-                                                        'assets/app/apple.png'),
-                                                  ),
-                                                ),
-                                              )
+                                              // InkWell(
+                                              //   onTap: () {
+                                              //     setState(() {
+                                              //       isProcessing = true;
+                                              //     });
+                                              //     viewModel
+                                              //         .signInWithGoogle()
+                                              //         .then((value) {
+                                              //       if (value == true) {
+                                              //         setState(() {
+                                              //           isProcessing = false;
+                                              //         });
+                                              //         HelperFunctions
+                                              //             .setUserLoggedInStatus(
+                                              //                 true);
+                                              //         Navigator
+                                              //             .pushReplacementNamed(
+                                              //                 context,
+                                              //                 "/messageview");
+                                              //       } else {
+                                              //         setState(() {
+                                              //           isProcessing = false;
+                                              //         });
+                                              //         ScaffoldMessenger.of(
+                                              //                 context)
+                                              //             .showSnackBar(
+                                              //                 SnackBar(
+                                              //                     content: Text(
+                                              //                         value)));
+                                              //       }
+                                              //     });
+                                              //   },
+                                              //   child: SizedBox(
+                                              //     height: 30,
+                                              //     child: ClipOval(
+                                              //       child: Image.asset(
+                                              //           'assets/app/google.png'),
+                                              //     ),
+                                              //   ),
+                                              // ),
+                                              // const SizedBox(width: 30),
+                                              // InkWell(
+                                              //   onTap: () {
+                                              //     setState(() {
+                                              //       isProcessing = true;
+                                              //     });
+                                              //     viewModel
+                                              //         .signInWithFacebook()
+                                              //         .then((value) {
+                                              //       if (value == true) {
+                                              //         HelperFunctions
+                                              //             .setUserLoggedInStatus(
+                                              //                 true);
+                                              //         Navigator
+                                              //             .pushReplacementNamed(
+                                              //                 context,
+                                              //                 "/messageview");
+                                              //       } else {
+                                              //         setState(() {
+                                              //           isProcessing = false;
+                                              //         });
+                                              //         ScaffoldMessenger.of(
+                                              //                 context)
+                                              //             .showSnackBar(
+                                              //                 SnackBar(
+                                              //                     content: Text(
+                                              //                         value)));
+                                              //       }
+                                              //     });
+                                              //   },
+                                              //   child: SizedBox(
+                                              //     height: 30,
+                                              //     child: ClipOval(
+                                              //       child: Image.asset(
+                                              //           'assets/app/facebook.png'),
+                                              //     ),
+                                              //   ),
+                                              // ),
+                                              // const SizedBox(width: 30),
+                                              // InkWell(
+                                              //   onTap: () {
+                                              //     viewModel
+                                              //         .signInWithApple()
+                                              //         .then((v) {
+                                              //       if (v == true) {
+                                              //         Navigator.pushNamed(
+                                              //             context,
+                                              //             "/newhomepage");
+                                              //       }
+                                              //     });
+                                              //   },
+                                              //   child: SizedBox(
+                                              //     height: 30,
+                                              //     child: ClipOval(
+                                              //       child: Image.asset(
+                                              //           'assets/app/apple.png'),
+                                              //     ),
+                                              //   ),
+                                              // )
                                             ]),
                                       ],
                                     ),
                                   ),
                                 ),
                         ),
-                        isProcessing
+                        isGoogleLoading
                             ? Container(
                                 height: double.infinity,
                                 width: double.infinity,
-                                color: Colors.white.withOpacity(0.4),
-                                child: const Center(
-                                  child: CircularProgressIndicator(
-                                      color: primaryColor),
-                                ),
+                                color: Colors.white.withOpacity(0.2),
                               )
-                            : const SizedBox()
+                            : isProcessing
+                                ? Container(
+                                    height: double.infinity,
+                                    width: double.infinity,
+                                    color: Colors.white.withOpacity(0.2),
+                                  )
+                                : const SizedBox()
                       ],
                     ));
         });

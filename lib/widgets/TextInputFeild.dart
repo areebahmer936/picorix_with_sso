@@ -1,7 +1,10 @@
 import "package:flutter/material.dart";
 
 Padding textInputField(controller, label, String? Function(String?)? validator,
-    {String mode = 'String', leading, password = false}) {
+    {String mode = 'String',
+    leading,
+    password = false,
+    String toolTipMessage = ''}) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10),
     child: TextFormField(
@@ -14,6 +17,23 @@ Padding textInputField(controller, label, String? Function(String?)? validator,
 
       decoration: InputDecoration(
         labelText: label,
+        suffixIcon: toolTipMessage == ""
+            ? null
+            : Tooltip(
+                showDuration: const Duration(seconds: 5),
+                textAlign: TextAlign.center,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.grey),
+                margin: const EdgeInsets.symmetric(horizontal: 40),
+                message: toolTipMessage,
+                preferBelow: false,
+                triggerMode: TooltipTriggerMode.tap,
+                child: const Icon(
+                  Icons.info_rounded,
+                  color: Colors.grey,
+                ),
+              ),
         contentPadding:
             const EdgeInsetsDirectional.symmetric(horizontal: 20, vertical: 18),
         labelStyle: const TextStyle(

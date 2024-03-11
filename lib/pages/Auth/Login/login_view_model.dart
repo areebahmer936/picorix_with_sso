@@ -57,50 +57,21 @@ class LoginViewModel extends BaseViewModel {
             email: emailController.text, password: passwordController.text)
         .then((value) async {
       if (value == true) {
-        final uid = FirebaseAuth.instance.currentUser!.uid;
-        String role = await authService.emailConfirmationForUserRoles(
-            uid: FirebaseAuth.instance.currentUser!.uid);
-        print(role);
+        final user = FirebaseAuth.instance.currentUser!;
 
-        DocumentSnapshot docSnp =
-            await firebaseFirestoreServices.getUserData(role, uid);
-        print(docSnp.data());
+        DocumentSnapshot docSnp = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(user.uid)
+            .get();
 
         Map<String, dynamic> userData = docSnp.data() as Map<String, dynamic>;
-        await authService.updateCurrentUserName(name: userData["nameId"]);
-        await HelperFunctions.setProfilePicture(userData["profilePicture"]);
-        await HelperFunctions.setUid(userData['uid']);
-        await HelperFunctions.setUserLoggedInStatus(true);
-        await HelperFunctions.setUserEmailSf(emailController.text);
-        await HelperFunctions.setUserNameSf(
-            FirebaseAuth.instance.currentUser!.displayName!);
-        await HelperFunctions.setUserRole(role == 'other' ? 'Admin' : role);
-        await HelperFunctions.setEmailVerificatiedStatus(role == "Admin"
-            ? true
-            : FirebaseAuth.instance.currentUser!.emailVerified);
-        if (role == "Users") {
-          isLoadingPage = true;
-          notifyListeners();
-          Navigator.pushReplacementNamed(context, '/homepage');
-          //   isLoadingPage = true;
-          //   notifyListeners();
-          //   // ignore: use_build_context_synchronously
-          //   nextScreenReplacement(
-          //       context,
-          //       FirebaseAuth.instance.currentUser!.emailVerified
-          //           ? const DashBoard()
-          //           : const EmailVerificationScreen());
-        } else if (role == 'Admin') {
-          Navigator.pushReplacementNamed(context, '/adminpanel');
-        }
-        // } else {
-        //   // ignore: use_build_context_synchronously
-        //   nextScreenReplacement(
-        //       context,
-        //       FirebaseAuth.instance.currentUser!.emailVerified
-        //           ? const VetHomeView()
-        //           : const DocEmailVerificationScreen());
-        // }
+        await HelperFunctions.setInfo(userData["profilePictureUrl"], user.uid,
+            true, user.email, userData["username"]);
+        await authService.updateCurrentUserName(name: userData["username"]);
+
+        isLoadingPage = true;
+        notifyListeners();
+        Navigator.pushReplacementNamed(context, '/messageview');
       } else {
         showSnackbar(context, value, Colors.red);
       }
